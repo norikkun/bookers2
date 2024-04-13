@@ -1,2 +1,38 @@
-<h1>Books#list</h1>
-<p>Find me in app/views/books/list.html.erb</p>
+<h1>User info</h1>
+
+<% if user.profile_image.attached? %>
+    <%= image_tag user.profile_image, size: "100x100" %>
+  <% else %>
+    <%= image_tag 'default-image', size: "100x100" %>
+  <% end %><br>
+  
+
+  <span>name <%= user.name %></span><br>
+  <span>introduction <%= user.introduction %></span>
+
+
+<% if user_signed_in? %>
+  <ul>
+    <% if current_user.id == user.id %>
+      <li>
+        <%= link_to "edit", edit_user_path(current_user) %>
+      </li>
+      <% else %>
+      <li>
+        <%= link_to "edit",user_path(current_user) %>
+      </li>
+    <% end %>
+  </ul>
+</ul>
+<% end %>
+
+<h1>New Book</h1>
+<%= form_with model: book do |f| %>
+  <h4>Title</h4>
+  <%= f.text_field :title %>
+	
+  <h4>Opinion</h4>
+  <%= f.text_area :body %><br>
+	
+  <%= f.submit 'Create Book' %>
+<% end %>

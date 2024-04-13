@@ -1,2 +1,31 @@
-<h1>Books#show</h1>
-<p>Find me in app/views/books/show.html.erb</p>
+<div>
+  <%= flash[:notice] %>
+</div>
+
+<%= render 'list', book: @book, user: @user  %>
+
+<h1>Book detail</h1>
+
+<div>
+  <% if @books.user.profile_image.attached? %>
+  <%= link_to user_path(@books.user.id) do %>
+    <%= image_tag url_for(@books.user.profile_image.variant(resize: "100x100")) %>
+    <%= @books.user.name %>
+  <% end %>
+<% else %>
+  <%= link_to user_path(@books.user.id) do %>
+    <%= image_tag 'default-image', size: "100x100" %>
+    <%= @books.user.name %>
+  <% end %>
+<% end %>
+  <span><%= link_to @books.title, book_path(@books.id) %></span>
+  <span><%= @books.body %></span>
+  
+  <% if @books.user == current_user %>
+  <%= link_to "edit", edit_book_path(@books) %>
+<% end %>
+  
+  <% if @books.user == current_user %>
+  <%= link_to "destroy", book_path(@books), method: :delete, data: { confirm: "本当に消しますか？" } %>
+<% end %>
+</div>

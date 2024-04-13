@@ -1,1 +1,40 @@
-<h1>ユーザー一覧</h1>
+<%= render 'books/list', book: @book, user: @user  %>
+
+<h1>Users</h1>
+<% @users.each do |user| %>
+
+  <table>
+    <thead>
+      <tr>
+        <th>image</Th> 
+        <th>name</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <% if user.profile_image.attached? %>
+            <%= link_to user_path(user.id) do %>
+              <%= image_tag url_for(user.profile_image.variant(resize: "100x100")) %>
+            <% end %>
+          <% else %>
+            <%= link_to user_path(user.id) do %>
+              <%= image_tag 'default-image', size: "100x100" %>
+            <% end %>
+          <% end %>
+        </td> 
+        <td><span><%= user.name %></span><td> 
+        <td>
+         <span>
+          <ul>
+            <li>
+             <%= link_to "show", user_path(user.id) %>
+            </li>
+            </ul>
+         </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
