@@ -1,11 +1,12 @@
 class UsersController < ApplicationController
+  before_action :move_to_signed_in
+  
   def edit
     @user = User.find(params[:id])
   end
 
   def show
     @book = Book.new
-    @user = current_user
     @user = User.find(params[:id])
     @books = @user.books
   end
@@ -20,15 +21,28 @@ class UsersController < ApplicationController
     if @user.update(user_params)
     flash[:notice] = "You have updated user successfully."
     redirect_to user_path(@user) 
-  else
+    else
     render :edit
-  end
+    end
   end
   
   private
   
   def user_params
     params.require(:user).permit(:name, :introduction, :profile_image)
+  end
+  
+  def is_matching_login_user
+    user = User.find(params[:id])
+    unless user.id == current_user.id
+      redirect_to root_path
+    end
+  end
+  
+  def move_to_signed_in
+    unless user_signed_in?
+      redirect_to '/users/sign_in'
+    end
   end
 
 end

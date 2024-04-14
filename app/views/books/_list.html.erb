@@ -1,5 +1,14 @@
 <h1>User info</h1>
 
+<% if book.errors.any? %>
+  <h3><%= book.errors.count %>error prohibited this obj from being saved:</h3>
+  <ul>
+    <% book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
 <% if user.profile_image.attached? %>
     <%= image_tag user.profile_image, size: "100x100" %>
   <% else %>
@@ -12,21 +21,18 @@
 
 
 <% if user_signed_in? %>
-  <ul>
     <% if current_user.id == user.id %>
-      <li>
-        <%= link_to "edit", edit_user_path(current_user) %>
-      </li>
+        <%= link_to  edit_user_path(current_user) do %>
+        <i class="fa-solid fa-user-gear"></i>
+        <% end %>
       <% else %>
-      <li>
-        <%= link_to "edit",user_path(current_user) %>
-      </li>
+        <%= link_to user_path(current_user) do %>
+        <i class="fa-solid fa-user-gear"></i>
+        <% end %>
     <% end %>
-  </ul>
-</ul>
 <% end %>
 
-<h1>New Book</h1>
+<h1>New book</h1>
 <%= form_with model: book do |f| %>
   <h4>Title</h4>
   <%= f.text_field :title %>

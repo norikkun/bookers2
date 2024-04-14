@@ -1,7 +1,6 @@
 class BooksController < ApplicationController
-  def list
-  end
-
+  before_action :move_to_signed_in
+  
   def index
     @book = Book.new
     @user = current_user
@@ -12,18 +11,20 @@ class BooksController < ApplicationController
   def create
     @book = Book.new(book_params)
     @book.user_id = current_user.id
-  if @book.save
+    if @book.save
     flash[:notice] = "You have created book successfully."
     redirect_to book_path(@book)
-  else
+    else
+    @user = current_user
+    @books = Book.all
     render :index
     end
   end
 
   def show
-    @book = Book.new
-    @user = current_user
-    @books = Book.find(params[:id])
+  @book = Book.new
+  @books = Book.find(params[:id])
+  @user = @books.user
   end
   
   def edit
@@ -32,13 +33,12 @@ class BooksController < ApplicationController
   
   def update
     @book = Book.find(params[:id])
-    @book.user_id = current_user.id
-  if @book.update(book_params)
-    flash[:notice] = "You have updated book successfully."
-    redirect_to book_path(@book) 
-  else
-    render :edit
-  end
+      if @book.update(book_params)
+      flash[:notice] = "You have updated book successfully."
+      redirect_to book_path(@book)
+      else
+      render :edit
+      end
   end
   
   def destroy
@@ -50,5 +50,11 @@ class BooksController < ApplicationController
   
   def book_params
     params.require(:book).permit(:title, :body)
+  end
+  
+  def move_to_signed_in
+    unless user_signed_in?
+      redirect_to '/users/sign_in'
+    end
   end
 end

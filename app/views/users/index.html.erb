@@ -16,7 +16,7 @@
         <td>
           <% if user.profile_image.attached? %>
             <%= link_to user_path(user.id) do %>
-              <%= image_tag url_for(user.profile_image.variant(resize: "100x100")) %>
+            <%= image_tag user.profile_image, size: "100x100" %>
             <% end %>
           <% else %>
             <%= link_to user_path(user.id) do %>
