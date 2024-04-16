@@ -1,4 +1,10 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
 <%= render 'books/list', book: @book, user: @user  %>
+</div>
+    
+    <div class="col-md-8 offset-md-1">
 
 <h1>Users</h1>
 <% @users.each do |user| %>
@@ -29,7 +35,7 @@
          <span>
           <ul>
             <li>
-             <%= link_to "show", user_path(user.id) %>
+             <%= link_to "Show", user_path(user.id) %>
             </li>
             </ul>
          </span>
@@ -38,3 +44,6 @@
     </tbody>
   </table>
 <% end %>
+</div>
+</div>
+</div>

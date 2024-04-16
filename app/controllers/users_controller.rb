@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :move_to_signed_in
+  before_action :is_matching_login_user, only: [:edit, :update]
   
   def edit
     @user = User.find(params[:id])
@@ -16,6 +17,7 @@ class UsersController < ApplicationController
     @users = User.all
     @user = current_user
   end
+  
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
@@ -35,7 +37,7 @@ class UsersController < ApplicationController
   def is_matching_login_user
     user = User.find(params[:id])
     unless user.id == current_user.id
-      redirect_to root_path
+      redirect_to user_path(current_user.id)
     end
   end
   
@@ -44,5 +46,6 @@ class UsersController < ApplicationController
       redirect_to '/users/sign_in'
     end
   end
+  
 
 end

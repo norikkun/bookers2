@@ -1,5 +1,7 @@
 class BooksController < ApplicationController
   before_action :move_to_signed_in
+  before_action :ensure_correct_user, only: [:edit, :update]
+
   
   def index
     @book = Book.new
@@ -55,6 +57,13 @@ class BooksController < ApplicationController
   def move_to_signed_in
     unless user_signed_in?
       redirect_to '/users/sign_in'
+    end
+  end
+  
+  def ensure_correct_user
+    book = Book.find(params[:id])
+    unless book.user_id == current_user.id
+      redirect_to books_path
     end
   end
 end

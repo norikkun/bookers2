@@ -1,4 +1,10 @@
-<%= render 'books/list', book: @book, user: @user  %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <%= render 'books/list', book: @book, user: @user  %>
+    </div>
+    
+    <div class="col-md-8 offset-md-1">
 
 <h1>Books</h1>
 <% @books.each do |book| %>
@@ -30,3 +36,6 @@
     </tbody>
   </table>
 <% end %>
+</div>
+</div>
+</div>
